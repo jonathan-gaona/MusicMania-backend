@@ -1,0 +1,15 @@
+# Copia este archivo como "application-local.properties" (git lo ignora) y ejecuta con el perfil "local".
+# Así puedes poner tus credenciales sin subirlas a GitHub.
+
+# --- MySQL local ---
+spring.datasource.url=jdbc:mysql://localhost:3306/musicmania?sslMode=PREFERRED&allowPublicKeyRetrieval=true&serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=tu_contraseña
+
+# --- Aiven (descomenta y reemplaza lo de arriba) ---
+# spring.datasource.url=jdbc:mysql://mysql-xxxx.g.aivencloud.com:PUERTO/musicmania?sslMode=REQUIRED&serverTimezone=UTC
+# spring.datasource.username=avnadmin
+# spring.datasource.password=la_contraseña_de_aiven
+
+# Crea admin y clientes de ejemplo si no existen (útil con una base nueva)
+app.seed.usuarios=true
