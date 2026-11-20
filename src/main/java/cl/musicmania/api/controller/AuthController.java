@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 @Tag(name = "Autenticación", description = "Registro, login, renovación de token y sesión actual")
@@ -33,6 +35,13 @@ public class AuthController {
     @Operation(summary = "Inicia sesión y devuelve access token + refresh token (público)")
     public AuthResponse login(@Valid @RequestBody LoginRequest request) {
         return service.login(request);
+    }
+
+    @PostMapping("/google")
+    @Operation(summary = "Inicia sesión o registra usuario con token de Google (público)")
+    public AuthResponse loginGoogle(@RequestBody Map<String, String> body) {
+        String token = body.containsKey("credential") ? body.get("credential") : body.get("token");
+        return service.loginConGoogle(token);
     }
 
     @PostMapping("/refresh")
