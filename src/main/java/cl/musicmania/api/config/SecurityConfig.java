@@ -33,16 +33,18 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Swagger (documentación)
                 .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                // Públicos: autenticación, catálogo y checkout
-                .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register", "/api/auth/refresh").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/productos", "/api/productos/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/ordenes").permitAll()
-                // Cualquier usuario con sesión
-                .requestMatchers("/api/ordenes/mias").authenticated()
-                // Solo administradores
-                .requestMatchers("/api/productos/**").hasRole("ADMINISTRADOR")
-                .requestMatchers("/api/usuarios/**").hasRole("ADMINISTRADOR")
-                .requestMatchers("/api/ordenes/**").hasRole("ADMINISTRADOR")
+                // Públicos: autenticación, catálogo y checkout (Versionado /api/v1)
+                .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/refresh").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/productos", "/api/v1/productos/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/v1/ordenes").permitAll()
+                // Cualquier usuario con sesión (ej. /api/v1/auth/me, /api/v1/ordenes/mias)
+                .requestMatchers("/api/v1/ordenes/mias").authenticated()
+                // Vendedor y Administrador: pueden visualizar lista y detalle de órdenes (productos ya es público en GET)
+                .requestMatchers(HttpMethod.GET, "/api/v1/ordenes", "/api/v1/ordenes/**").hasAnyRole("ADMINISTRADOR", "VENDEDOR")
+                // Solo administradores: gestión completa (POST, PUT, DELETE y usuarios)
+                .requestMatchers("/api/v1/productos/**").hasRole("ADMINISTRADOR")
+                .requestMatchers("/api/v1/usuarios/**").hasRole("ADMINISTRADOR")
+                .requestMatchers("/api/v1/ordenes/**").hasRole("ADMINISTRADOR")
                 .anyRequest().authenticated())
             .exceptionHandling(e -> e
                 .authenticationEntryPoint((req, res, ex) -> escribirJson(res, 401, "No autenticado. Inicia sesión."))
@@ -70,7 +72,6 @@ public class SecurityConfig {
         return source;
     }
 
-    /** BCrypt: compatible con los hashes que ya creó el backend en Node (bcryptjs). */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

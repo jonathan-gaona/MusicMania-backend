@@ -24,6 +24,7 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         crear("Administrador Principal", "111111111", "admin@duoc.cl", "admin", "Administrador");
         crear("Administrador secundario", "222222222", "admin2@duoc.cl", "admin2", "Administrador");
+        crear("Vendedor Tienda", "555555555", "vendedor@duoc.cl", "vendedor", "Vendedor");
         crear("Cliente Ejemplo", "444444444", "cliente@gmail.com", "1234", "Cliente");
         crear("Cliente Ejemplo 2", "33333333", "cliente2@gmail.com", "1234", "Cliente");
     }

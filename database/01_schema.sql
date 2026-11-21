@@ -1,5 +1,6 @@
 CREATE DATABASE IF NOT EXISTS musicmania CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE musicmania;
+ALTER TABLE USUARIO MODIFY COLUMN rol ENUM('Administrador', 'Vendedor', 'Cliente') NOT NULL DEFAULT 'Cliente';
 
 CREATE TABLE IF NOT EXISTS USUARIO (
   id_usuario    INT AUTO_INCREMENT PRIMARY KEY,
