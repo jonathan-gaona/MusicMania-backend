@@ -44,6 +44,7 @@ public class SecurityConfig {
                 // Solo administradores: gestión completa (POST, PUT, DELETE y usuarios)
                 .requestMatchers("/api/v1/productos/**").hasRole("ADMINISTRADOR")
                 .requestMatchers("/api/v1/usuarios/**").hasRole("ADMINISTRADOR")
+                .requestMatchers("/api/v1/admin/**").hasRole("ADMINISTRADOR")
                 .requestMatchers("/api/v1/ordenes/**").hasRole("ADMINISTRADOR")
                 .anyRequest().authenticated())
             .exceptionHandling(e -> e
