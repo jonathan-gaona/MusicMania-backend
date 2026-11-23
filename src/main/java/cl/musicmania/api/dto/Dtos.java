@@ -3,6 +3,7 @@ package cl.musicmania.api.dto;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
+import java.util.Map;
 
 /** Objetos de entrada/salida de la API (lo que viaja en el JSON). */
 public final class Dtos {
@@ -56,7 +57,26 @@ public final class Dtos {
 
     public record LineaDto(String id, String nombre, Integer precio, Integer cantidad) {}
 
+    /** idUsuario es null cuando la compra fue como invitado. */
     public record OrdenDto(String id, String nroOrden, String fecha, String cliente, String correo,
                            String rut, String direccion, String metodoPago, String estado,
-                           Integer total, List<LineaDto> productos) {}
+                           Integer total, List<LineaDto> productos, Long idUsuario) {}
+
+    // ---------- Resumen del panel de administración ----------
+    public record ProductoVendidoDto(String id, String nombre, long unidades, long ingresos) {}
+
+    public record ProductoStockBajoDto(String id, String titulo, String categoria, int stock) {}
+
+    public record ResumenAdminDto(
+            // Usuarios
+            int totalUsuarios, int clientes, int administradores, int vendedores,
+            // Productos
+            int totalProductos, long unidadesEnStock, int productosStockBajo,
+            // Órdenes (las canceladas no suman a las ventas)
+            int totalOrdenes, long ventasTotales, long ticketPromedio,
+            Map<String, Integer> ordenesPorEstado,
+            Map<String, Long> ventasPorMetodoPago,
+            List<ProductoVendidoDto> masVendidos,
+            List<ProductoStockBajoDto> stockBajo,
+            List<OrdenDto> ultimasOrdenes) {}
 }

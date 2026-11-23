@@ -31,6 +31,6 @@ public final class Mapeos {
         return new OrdenDto(o.getId(), "#" + o.getId(),
                 o.getFecha() == null ? null : o.getFecha().format(FECHA),
                 o.getClienteNombre(), o.getCorreo(), o.getRut() == null ? "" : o.getRut(),
-                o.getDireccion(), o.getMetodoPago(), o.getEstado(), o.getTotal(), lineas);
+                o.getDireccion(), o.getMetodoPago(), o.getEstado(), o.getTotal(), lineas, o.getIdUsuario());
     }
 }
